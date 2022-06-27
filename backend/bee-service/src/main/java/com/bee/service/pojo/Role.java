@@ -3,7 +3,6 @@ package com.bee.service.pojo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -25,7 +24,7 @@ public class Role implements Serializable {
 
     private Integer id;
 
-    private String roleName;
+    private String name;
 
     private String remark;
 
@@ -41,12 +40,12 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getName() {
+        return name;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getRemark() {

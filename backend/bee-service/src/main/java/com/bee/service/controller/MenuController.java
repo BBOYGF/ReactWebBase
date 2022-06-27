@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author guofan
- * @since 2022-06-22
+ * @since 2022-06-23
  */
 @RestController
-@RequestMapping("/permission")
-public class PermissionController {
+@RequestMapping("/menu")
+public class MenuController {
 
 }

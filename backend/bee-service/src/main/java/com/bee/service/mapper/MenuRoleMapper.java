@@ -1,6 +1,6 @@
 package com.bee.service.mapper;
 
-import com.bee.service.pojo.RolePermission;
+import com.bee.service.pojo.MenuRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author guofan
- * @since 2022-06-22
+ * @since 2022-06-23
  */
-public interface RolePermissionMapper extends BaseMapper<RolePermission> {
+public interface MenuRoleMapper extends BaseMapper<MenuRole> {
 
 }

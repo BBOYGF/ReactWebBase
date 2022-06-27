@@ -8,13 +8,9 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +23,10 @@ import java.util.Scanner;
  * @date 2022/6/22
  */
 //@EnableScheduling
-@EnableAsync
+//@EnableAsync
 @SpringBootApplication
 @MapperScan("com.bee.service.mapper")
-@EnableWebSecurity
+//@EnableWebSecurity
 public class MainApplication {
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);

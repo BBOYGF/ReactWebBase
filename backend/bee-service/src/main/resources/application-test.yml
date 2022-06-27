@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-circular-references: true
   jmx:
     enabled: false
   datasource:
@@ -14,3 +16,15 @@ mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
 #  springboot 2.7 使用swagger3时需要配置此项
 spring.mvc.pathmatch.matching-strategy: ant_path_matcher
+jwt:
+  #JWT存储的请求头
+  tokenHeader: Authorization
+  #JWT加解密使用的秘钥
+  secret: yeb-secret
+  #JWT超期限时间
+  expiration: 604800
+  #JWT 负载中拿到的开头
+  tokenHead: Bearer
+
+logging:
+  config: classpath:logger/loggerConfig.xml

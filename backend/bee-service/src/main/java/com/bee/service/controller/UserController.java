@@ -2,6 +2,7 @@ package com.bee.service.controller;
 
 
 import com.bee.service.pojo.RespBean;
+import com.bee.service.pojo.User;
 import com.bee.service.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -30,7 +33,8 @@ public class UserController {
     @GetMapping("/")
     @ApiOperation(value = "获取所有用户")
     public RespBean getUser() {
-        return RespBean.success("成功", userService.list());
+        List<User> userList = userService.list();
+        return RespBean.success("成功", userList);
     }
 
 }

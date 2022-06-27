@@ -1,6 +1,6 @@
 package com.bee.service.service;
 
-import com.bee.service.pojo.Permission;
+import com.bee.service.pojo.MenuRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author guofan
- * @since 2022-06-22
+ * @since 2022-06-23
  */
-public interface IPermissionService extends IService<Permission> {
+public interface IMenuRoleService extends IService<MenuRole> {
 
 }
