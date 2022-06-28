@@ -2,17 +2,15 @@ package com.bee.service.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import io.swagger.annotations.ApiModel;
-import lombok.EqualsAndHashCode;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * <p>
@@ -22,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author guofan
  * @since 2022-06-22
  */
-@EqualsAndHashCode(callSuper = false)
 @TableName("t_user")
 @ApiModel(value = "User对象", description = "")
 public class User implements Serializable, UserDetails {

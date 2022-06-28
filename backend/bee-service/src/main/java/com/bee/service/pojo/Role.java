@@ -14,8 +14,7 @@ import lombok.EqualsAndHashCode;
  * @author guofan
  * @since 2022-06-22
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
+
 @TableName("t_role")
 @ApiModel(value="Role对象", description="")
 public class Role implements Serializable {
@@ -53,6 +52,15 @@ public class Role implements Serializable {
     }
 
     public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Role() {
+    }
+
+    public Role(Integer id, String name, String remark) {
+        this.id = id;
+        this.name = name;
         this.remark = remark;
     }
 }

@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.Scanner;
  * @date 2022/6/22
  */
 //@EnableScheduling
-//@EnableAsync
+@EnableAsync
 @SpringBootApplication
 @MapperScan("com.bee.service.mapper")
 //@EnableWebSecurity

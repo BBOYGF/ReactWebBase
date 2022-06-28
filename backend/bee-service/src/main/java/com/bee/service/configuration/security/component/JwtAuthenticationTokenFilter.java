@@ -27,27 +27,27 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private UserDetailsService userDetailsService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String header = httpServletRequest.getHeader(tokenHeader);
         //判断是否存在token
-        if(null!=header && header.startsWith(tokenHead)){
+        if (null != header && header.startsWith(tokenHead)) {
             String authToken = header.substring(tokenHead.length());
             String username = jwtTokenUtil.getUserNameFromToken(authToken);
             //token存在但是没登录
-            if(null!=username && null== SecurityContextHolder.getContext().getAuthentication())
-            {
+            if (null != username && null == SecurityContextHolder.getContext().getAuthentication()) {
                 //登录
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 //判断token是否有效
-                if(jwtTokenUtil.validateToken(authToken,userDetails)){
-                    UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+                if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                     //将登token录设置为全局上下文
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
             }
         }
-        filterChain.doFilter(httpServletRequest,httpServletResponse);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }

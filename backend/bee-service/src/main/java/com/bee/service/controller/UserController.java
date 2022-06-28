@@ -2,6 +2,7 @@ package com.bee.service.controller;
 
 
 import com.bee.service.pojo.RespBean;
+import com.bee.service.pojo.Role;
 import com.bee.service.pojo.User;
 import com.bee.service.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
@@ -10,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,8 +35,10 @@ public class UserController {
 
     @GetMapping("/")
     @ApiOperation(value = "获取所有用户")
+    @ResponseBody
     public RespBean getUser() {
         List<User> userList = userService.list();
+        userList.forEach(user -> user.setRoles(new ArrayList<>()));
         return RespBean.success("成功", userList);
     }
 

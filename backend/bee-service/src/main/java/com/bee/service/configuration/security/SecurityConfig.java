@@ -2,14 +2,12 @@ package com.bee.service.configuration.security;
 
 import com.bee.service.configuration.security.component.*;
 import com.bee.service.pojo.User;
-import com.bee.service.service.IUserService;
 import com.bee.service.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -46,6 +44,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+//                .antMatchers("/login").permitAll()
                 //所有请求都要求认证
                 .anyRequest()
                 .authenticated()
@@ -77,7 +76,7 @@ public class SecurityConfig {
         return web -> web.ignoring().antMatchers(
                 "/login",
                 "/logout",
-                "/user/",
+                "/user/*",
                 "/doc.html/**",
                 "/css/**",
                 "/js/**",
