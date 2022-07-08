@@ -1,2 +1,6 @@
 **/.gradle/
-.idea
+**/.idea/
+research/
+**/hello-*/
+**/build/
+backend/bee-service/log
