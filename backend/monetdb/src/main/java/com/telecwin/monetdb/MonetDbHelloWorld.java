@@ -57,16 +57,20 @@ public class MonetDbHelloWorld {
         long end = System.currentTimeMillis();
         long costSeconds = (end - start) / 1000;
         logger.debug("插入{}记录，耗时: {} 秒，速度：{} tps", batchSize, costSeconds, batchSize / costSeconds);
-        testQuery(conn);
+        testQuery(conn, null);
         //Close connection
         conn.close();
     }
 
-    private void testQuery(Connection conn) throws SQLException {
+    public void testQuery(Connection conn, String sql) throws SQLException {
         //Query table
         Statement s = conn.createStatement();
         long start = System.currentTimeMillis();
-        ResultSet rs = s.executeQuery("SELECT * FROM example;");
+        String select = "SELECT * FROM example;";
+        if (sql != null) {
+            select = sql;
+        }
+        ResultSet rs = s.executeQuery(select);
         long queryEnd = System.currentTimeMillis();
         logger.debug("查询耗时：{} ms", (queryEnd - start));
         //Fetch results
@@ -74,8 +78,11 @@ public class MonetDbHelloWorld {
         while (rs.next()) {
             //Get columns
             rs.getInt(1);
-            rs.getString(2);
-//                logger.debug("记录{}：{}, {}", i, rs.getInt(1), rs.getString(2));
+            String col2 = "";
+            if (s.getMaxFieldSize() > 1) {
+                col2 = rs.getString(2);
+            }
+            logger.debug("记录{}：{}, {}", i, rs.getInt(1), col2);
             i++;
         }
         logger.debug("读取结果耗时：{} ms", (System.currentTimeMillis() - queryEnd));
@@ -93,13 +100,16 @@ public class MonetDbHelloWorld {
     }
 
     public void testReadFileDatabase() throws SQLException, InterruptedException {
-        String dbUrl = "jdbc:monetdb:file:" + System.getProperty("user.dir") + "/../testdata/localdb";
+        // String dbUrl = "jdbc:monetdb:file:" + System.getProperty("user.dir") + "/../testdata/localdb";
+//        String dbUrl = "jdbc:monetdb:file:d:\\products\\bee\\backend\\testdata\\localdb\\";
+        String dbUrl = "jdbc:monetdb:file:e:/bi/monet-test-db/mdb-10m";
+        logger.debug("JDBC URL: {}", dbUrl);
         long start = System.currentTimeMillis();
-        Connection connection = DriverManager.getConnection(dbUrl, null);
+        Connection connection = DriverManager.getConnection(dbUrl, "guofan", "guofan");
         long end = System.currentTimeMillis();
-        logger.debug("获取连接耗时：{} ms", end-start);
-        testQuery(connection);
+        logger.debug("获取连接耗时：{} ms", end - start);
+        testQuery(connection, null);
         // 等待一下
-        Thread.sleep(1000*10);
+        Thread.sleep(1000 * 10);
     }
 }
