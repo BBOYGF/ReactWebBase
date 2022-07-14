@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group 'com.telecwin.monetdb'
+version '1.0-SNAPSHOT'
+
+repositories {
+    flatDir name: 'libs', dirs: "$rootProject.rootDir/lib"
+    mavenCentral()
+}
+
+dependencies {
+    implementation ':monetdbe-java:1.10-windows'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
+}
