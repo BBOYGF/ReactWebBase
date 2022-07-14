@@ -12,9 +12,8 @@ repositories {
 
 dependencies {
     // MonetDBe-Java
-    implementation ':monetdbe-java:1.10-windows'
+    //implementation ':monetdbe-java:1.10-windows'
     // MonetDB JDBC
-    // implementation group: 'monetdb', name: 'monetdb-jdbc', version: '3.2'
     implementation ':monetdb-jdbc:3.2'
     // log
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
