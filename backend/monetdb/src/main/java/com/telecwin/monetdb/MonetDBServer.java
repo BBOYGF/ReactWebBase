@@ -1,10 +1,11 @@
 package com.telecwin.monetdb;
 
-import nl.cwi.monetdb.mcl.net.MapiSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
@@ -106,7 +107,7 @@ public class MonetDBServer {
                     logger.error("MServer stdout reader 异常！退出读取循环。", e);
                     break;
                 }
-            } while(line != null);
+            } while (line != null);
             logger.debug("MServer stdout reader 线程退出");
         }, "MServer stdout reader");
         stdReadThread.setDaemon(true);
@@ -124,7 +125,7 @@ public class MonetDBServer {
                     logger.error("MServer stderr reader 异常！退出读取循环。", e);
                     break;
                 }
-            } while(line != null);
+            } while (line != null);
             logger.debug("MServer stderr reader 线程退出");
         }, "MServer stderr reader");
         errorReadThread.setDaemon(true);
@@ -135,6 +136,7 @@ public class MonetDBServer {
 
     /**
      * 等待服务进程结束
+     *
      * @param timeout 0 意味着一直等待。
      */
     public void waitServiceStop(long timeout) {
@@ -193,10 +195,27 @@ public class MonetDBServer {
     /**
      * 获取服务是否运行的状态，可以用阻塞的方式查询，并可以设置超时时间，超时则抛出异常。
      *
+     * @param timeout 端口的连接和读超时设置，单位是毫秒，0 表示无限。
      * @return true 表示服务进程已经启动，正在运行；false 表示服务未运行。
      */
-    public boolean isRunning(long timeout) throws TimeoutException {
-        MapiSocket socket = new MapiSocket();
+    public boolean isRunning(int timeout) {
+        try (Socket socket = new Socket()) {
+            socket.setSoTimeout(timeout);
+            socket.connect(new InetSocketAddress("localhost", DEFAULT_PORT), timeout);
+            Thread.sleep(10);
+            InputStream inputStream = socket.getInputStream();
+            // 读取首行信息
+            int bufSize = inputStream.available();
+            logger.debug("准备读取端口数据: {}", bufSize);
+            byte[] read = new byte[bufSize];
+            inputStream.read(read);
+            String line = new String(read, StandardCharsets.ISO_8859_1);
+            if (line.contains("mserver")) {
+                return true;
+            }
+        } catch (Exception exp) {
+            logger.debug("连接到端口失败：{}", DEFAULT_PORT, exp);
+        }
         return false;
     }
 }

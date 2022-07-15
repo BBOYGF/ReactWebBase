@@ -1,9 +1,11 @@
 package com.telecwin.monetdb;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 class MonetDBServerTest {
 
@@ -28,6 +30,10 @@ class MonetDBServerTest {
     }
 
     @Test
-    void isRunning() {
+    void isRunning() throws IOException, InterruptedException {
+        server.startServer();
+        Thread.sleep(3000);
+        boolean running = server.isRunning(3000);
+        Assertions.assertTrue(running);
     }
 }
