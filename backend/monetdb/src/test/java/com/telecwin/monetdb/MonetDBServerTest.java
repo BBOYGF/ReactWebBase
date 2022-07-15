@@ -19,6 +19,7 @@ class MonetDBServerTest {
     @Test
     void startServer() throws IOException {
         server.startServer();
+        server.waitServiceStop(1000*10);
     }
 
     @Test

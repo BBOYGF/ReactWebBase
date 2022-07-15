@@ -19,6 +19,13 @@ import java.util.concurrent.TimeoutException;
  * </pre>
  */
 public class MonetDBServer {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     * 记录服务进程输出的logger
+     */
+    private Logger mserverStdoutLogger = LoggerFactory.getLogger("mserver.stdout");
+
     /**
      * 缺省端口
      */
@@ -38,7 +45,14 @@ public class MonetDBServer {
      */
     private File dbPath;
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     * stdout 读取线程
+     */
+    private Thread stdReadThread;
+    /**
+     * stderr 读取线程
+     */
+    private Thread errorReadThread;
 
     /**
      * @param exePath 服务程序 mserver5.exe 的路径
@@ -52,14 +66,12 @@ public class MonetDBServer {
 
     /**
      * 启动数据库服务进程
-     *
-     * @return 记录终端输出的日志文件
      */
-    public File startServer() throws IOException {
+    public void startServer() throws IOException {
         // 1. 扩展 PATH 环境变量，加入 monetDB 的 bin/ 和 lib/ 目录
         // 2. 设置 dbpath 路径
         // 3. 启动进程，记录终端输出到日志文件
-
+        logger.debug("准备启动 DB Server ...");
         // 先停止旧进程
         stopServer();
 
@@ -78,12 +90,68 @@ public class MonetDBServer {
 
         Process process = procBuilder.start();
         InputStream inputStream = process.getInputStream();
+        InputStream errorInputStream = process.getErrorStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            logger.debug("mserver5.exe >> {}", line);
+        BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorInputStream, StandardCharsets.UTF_8));
+
+        stdReadThread = new Thread(() -> {
+            String line;
+            do {
+                try {
+                    line = reader.readLine();
+                    if (line != null) {
+                        mserverStdoutLogger.info("mserver5 >> {}", line);
+                    }
+                } catch (IOException e) {
+                    logger.error("MServer stdout reader 异常！退出读取循环。", e);
+                    break;
+                }
+            } while(line != null);
+            logger.debug("MServer stdout reader 线程退出");
+        }, "MServer stdout reader");
+        stdReadThread.setDaemon(true);
+        stdReadThread.start();
+
+        errorReadThread = new Thread(() -> {
+            String line;
+            do {
+                try {
+                    line = errorReader.readLine();
+                    if (line != null) {
+                        mserverStdoutLogger.info("mserver5[err] >> {}", line);
+                    }
+                } catch (IOException e) {
+                    logger.error("MServer stderr reader 异常！退出读取循环。", e);
+                    break;
+                }
+            } while(line != null);
+            logger.debug("MServer stderr reader 线程退出");
+        }, "MServer stderr reader");
+        errorReadThread.setDaemon(true);
+        errorReadThread.start();
+
+        logger.debug("DB Server 已经启动");
+    }
+
+    /**
+     * 等待服务进程结束
+     * @param timeout 0 意味着一直等待。
+     */
+    public void waitServiceStop(long timeout) {
+        if (this.stdReadThread != null) {
+            try {
+                this.stdReadThread.join(timeout);
+            } catch (InterruptedException e) {
+                logger.debug("stdReadThread线程被中断!", e);
+            }
         }
-        return null;
+        if (this.errorReadThread != null) {
+            try {
+                this.errorReadThread.join(timeout);
+            } catch (InterruptedException e) {
+                logger.debug("errorReadThread线程被中断!", e);
+            }
+        }
     }
 
     /**
