@@ -12,14 +12,15 @@ public class HelloMonetJDBC {
     private static final Logger logger = LoggerFactory.getLogger(MonetDbHelloWorld.class);
 
     public static void main(String[] args) throws SQLException, UnsupportedEncodingException {
-        String dbUrl = "jdbc:monetdb://localhost:50000/mdb-10m";
+//        String dbUrl = "jdbc:monetdb://localhost:50000/HundredMillion";
+        String dbUrl = "mapi:monetdb://localhost:50000/12HundredMillion";
         long start = System.currentTimeMillis();
-        Connection connection = DriverManager.getConnection(dbUrl, "guofan", "guofan");
+        Connection connection = DriverManager.getConnection(dbUrl, "monetdb", "monetdb");
         long end = System.currentTimeMillis();
         logger.debug("获取连接耗时：{} ms", end-start);
         MonetDbHelloWorld monetDbHelloWorld = new MonetDbHelloWorld();
         monetDbHelloWorld.testQuery(connection,
-                "select * from guofan.s订单 limit 10;"
+                "select 货主名称,sum(应付金额) from 订单 group by 货主名称;"
         );
     }
 }

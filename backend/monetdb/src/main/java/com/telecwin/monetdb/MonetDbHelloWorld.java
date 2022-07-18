@@ -77,12 +77,12 @@ public class MonetDbHelloWorld {
         int i = 0;
         while (rs.next()) {
             //Get columns
-            rs.getInt(1);
+            rs.getFloat(2);
             String col2 = "";
             if (s.getMaxFieldSize() > 1) {
-                col2 = rs.getString(2);
+                col2 = rs.getString(1);
             }
-            logger.debug("记录{}：{}, {}", i, rs.getInt(1), col2);
+            logger.debug("记录{}：{}, {}", i, rs.getInt(2), col2);
             i++;
         }
         logger.debug("读取结果耗时：{} ms", (System.currentTimeMillis() - queryEnd));

@@ -10,11 +10,13 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
+    flatDir (dirs: 'lib')
     mavenCentral()
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'junit:junit:4.13.1'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.7.0'
     implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.3.2'
@@ -27,19 +29,19 @@ dependencies {
     implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: '3.4.1'
     // 模板引擎
     implementation group: 'org.freemarker', name: 'freemarker', version: '2.3.31'
-    // lombok
-//    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
-    // swagger2
-//    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
 
     implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 
     // bootstrap ui
     implementation group: 'com.github.xiaoymin', name: 'swagger-bootstrap-ui', version: '1.9.6'
-// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
-
+    // MonetDB jdbc
+//    implementation group: '', name: 'monetdb-jdbc', version: '3.2'
+    // MonetDBe-Java
+    implementation ':monetdbe-java:1.10-windows'
+//    implementation group: '', name: 'monetdb-jdbc', version: '3.1'
 }
 
 tasks.named('test') {

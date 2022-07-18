@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     // MonetDBe-Java
-    //implementation ':monetdbe-java:1.10-windows'
+    implementation ':monetdbe-java:1.10-windows'
     // MonetDB JDBC
     implementation ':monetdb-jdbc:3.2'
     // log
