@@ -1,12 +1,13 @@
-
-import AlertUtil from '../../utils/AlertUtil';
+import AlertUtil from '../utils/AlertUtil';
 import axios from "axios";
+import {useNavigate} from 'react-router-dom'
 
 // 请求拦截器
 axios.interceptors.request.use(config => {
         if (window.sessionStorage.getItem('tokenStr')) {
             config.headers['Authorization'] = window.sessionStorage.getItem('tokenStr')
         }
+        console.log(config);
         return config
     }, error => {
         console.log(error)
@@ -26,13 +27,14 @@ axios.interceptors.response.use(success => {
     }
     return success.data
 }, error => {
+    let navigate = useNavigate();
     if (error.response.code === 504 || error.response.code === 404) {
         AlertUtil.error("请求失败！", '服务器无响应！')
     } else if (error.response.code === 403) {
         AlertUtil.error('无权限！请联系管理员！');
     } else if (error.response.code === 401) {
         AlertUtil.error('请登录！');
-        // router.replace('/')
+        navigate('/')
     } else {
         if (error.response.data.message) {
             AlertUtil.error(error.response.data.message)
