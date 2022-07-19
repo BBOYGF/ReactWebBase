@@ -1,5 +1,6 @@
-import axios from 'axios'
+
 import AlertUtil from '../../utils/AlertUtil';
+import axios from "axios";
 
 // 请求拦截器
 axios.interceptors.request.use(config => {
@@ -42,11 +43,11 @@ axios.interceptors.response.use(success => {
 })
 
 // 封装axios
-let base = 'localhost:8080'
+let base = ''
 export const postRequest = (url, params) => {
     return axios({
         method: 'post',
-        url: `${base}${url}`,
+        url: url,
         data: params
     })
 }

@@ -1,7 +1,9 @@
 import React, {PureComponent} from 'react';
 import '../../adminLTEStyle/adminlte.css';
 import '../../adminLTEStyle/fontawesome-free/css/all.min.css'
-import AlertUtil from '../../utils/AlertUtil';
+
+import {postRequest} from "../../utils/api";
+import AlertUtil from "../../utils/AlertUtil";
 
 class Login extends PureComponent {
 
@@ -39,7 +41,7 @@ class Login extends PureComponent {
     }
 
     login() {
-        // postRequest("/login", {"password": "123456", "username": "guofan"});
+        postRequest("/login", {"password": "123456", "username": "guofan"});
         AlertUtil.show("登录成功","")
     }
 }
