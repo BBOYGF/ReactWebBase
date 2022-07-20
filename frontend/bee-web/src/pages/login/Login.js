@@ -1,6 +1,4 @@
 import React, { createRef} from 'react';
-import '../../adminLTEStyle/adminlte.css';
-import '../../adminLTEStyle/fontawesome-free/css/all.min.css'
 import {postRequest} from "../../utils/api";
 import AlertUtil from "../../utils/AlertUtil";
 import {useNavigate} from 'react-router-dom'

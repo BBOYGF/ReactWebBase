@@ -1,11 +1,7 @@
-import React, {useState} from 'react';
-import '../../adminLTEStyle/adminlte.css';
-import '../../adminLTEStyle/fontawesome-free/css/all.min.css'
-// import {postRequest} from "../../utils/api";
-// import AlertUtil from "../../utils/AlertUtil";
-// import {useNavigate} from 'react-router-dom'
+import React, {useState, useEffect} from 'react';
 import bee from '../../static/img/bee.png'
-
+import {Outlet, Link, useNavigate} from 'react-router-dom'
+import {Dropdown} from 'element-react'
 
 function Home() {
     const [menuOpen, setMenuOpen] = useState(true);
@@ -13,6 +9,23 @@ function Home() {
         console.log("点击了按钮");
         setMenuOpen(!menuOpen);
     }
+    const onLogout = (item) => {
+        if(item==="logout"){
+            window.sessionStorage.removeItem('tokenStr');
+            navigate("/login")
+        }
+    }
+    let navigate = useNavigate();
+    useEffect(() => {
+        //判断是否登录
+        if (window.sessionStorage.getItem('tokenStr')) {
+            console.log("已登录！");
+            return;
+        }
+        console.log("未登录跳转到登录界面");
+        navigate("/login")
+    })
+
     return (
         //   hold-transition sidebar-mini sidebar-collapse 关闭的css
         <div className={menuOpen ? "sidebar-mini " : " sidebar-mini sidebar-collapse"}>
@@ -24,13 +37,7 @@ function Home() {
                     <ul className="navbar-nav">
                         <li className="nav-item" onClick={onOpenMenu}>
                             <div className="nav-link"><i
-                                className="fas fa-bars" ></i></div>
-                        </li>
-                        <li className="nav-item d-none d-sm-inline-block">
-                            <div className="nav-link">Home</div>
-                        </li>
-                        <li className="nav-item d-none d-sm-inline-block">
-                            <div href="#" className="nav-link">Contact</div>
+                                className="fas fa-bars"></i></div>
                         </li>
                     </ul>
                     {/*右边导航栏*/}
@@ -50,6 +57,21 @@ function Home() {
                             </div>
                         </li>
 
+                        <li className="nav-item dropdown">
+                            <div className="nav-link">
+                                <Dropdown menu={(
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item command="details">详情</Dropdown.Item>
+                                        <Dropdown.Item command="logout">退出</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                )}
+                                          onCommand={onLogout}>
+                                  <span className="el-dropdown-link">
+                                    <i className="far fa-user-circle"></i>
+                                  </span>
+                                </Dropdown>
+                            </div>
+                        </li>
                     </ul>
                 </nav>
                 {/*菜单*/}
@@ -62,18 +84,23 @@ function Home() {
                     <div className="sidebar">
                         <nav className="mt-2">
                             <ul className="nav nav-pills nav-sidebar flex-column">
-                                <li className="nav-item" >
-                                    <a href="/" className="nav-link">
-                                        <span className="fas fa-database" style={{margin :"5px"}}></span>
-                                        <p>数据导入</p>
-                                    </a>
+                                <li className="nav-item">
+                                    <div className="nav-link">
+                                        <span className="fas fa-database" style={{margin: "5px"}}></span>
+                                        <p>
+                                            <Link to="/dataImport">数据导入</Link>
+                                        </p>
+                                    </div>
 
                                 </li>
                                 <li className="nav-item">
-                                    <a href="/" className="nav-link">
-                                        <span className="fas fa-user-circle" style={{margin :"5px"}}></span>
-                                        <p>权限设置</p>
-                                    </a>
+                                    <div className="nav-link">
+                                        <span className="fas fa-user-circle" style={{margin: "5px"}}></span>
+                                        <p>
+                                            <Link to="/prem">权限管理</Link>
+                                        </p>
+                                    </div>
+
                                 </li>
                             </ul>
                         </nav>
@@ -81,8 +108,7 @@ function Home() {
                 </aside>
                 {/*主显示区域*/}
                 <div className="content-wrapper">
-                    <section className="content-header">内容上面</section>
-                    <section className="content">内容中间</section>
+                    <Outlet></Outlet>
                 </div>
                 {/*最下边*/}
                 <div className="main-footer">
