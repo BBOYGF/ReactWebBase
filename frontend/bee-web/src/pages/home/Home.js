@@ -75,10 +75,10 @@ function Home() {
                     </ul>
                 </nav>
                 {/*菜单*/}
-                <aside className="main-sidebar sidebar-dark-primary elevation-3">
+                <aside className="main-sidebar sidebar-dark-primary elevation3">
                     <div className="brand-link">
                         <img src={bee} alt="AdminLTE Logo" className="brand-image img-circle elevation-3"
-                             style={{opacity: .8}}/>
+                             style={{opacity: .6}}/>
                         <span className="brand-text font-weight-light">AdminLTE 3</span>
                     </div>
                     <div className="sidebar">

@@ -1,5 +1,6 @@
 import React, {Fragment} from "react";
 import {Dropdown, Tabs, Layout} from 'element-react';
+import BusinessList from "./BusinessList";
 
 function DataImportPage() {
     return (
@@ -12,25 +13,26 @@ function DataImportPage() {
                     </Dropdown.Menu>
                 )} menuAlign="start">
           <span className="el-dropdown-link">
-              <i className="fas fa-database" style={{marginRight: 5}}></i>
-            数据列表<i className="el-icon-caret-bottom el-icon--right"></i>
+              <i className="fas fa-database" style={{marginRight: 5}}/>
+            数据列表<i className="el-icon-caret-bottom el-icon--right"/>
           </span>
                 </Dropdown>
             </section>
-            <section className="content" style={{background:"red"}}>
+            <section className="content" >
 
-                <Layout.Row >
-                    <Layout.Col xs="3" sm="3" md="3" lg="3">
+                <Layout.Row>
+                    <Layout.Col xs="4" sm="4" md="4" lg="4" >
                         <div>
                             <Tabs activeName="2" onTabClick={(tab) => console.log(tab.props.name)}>
-                                <Tabs.Pane label="数据列表" name="1">数据列表</Tabs.Pane>
+                                <Tabs.Pane label="数据列表" name="1">
+                                        <BusinessList/>
+                                </Tabs.Pane>
                                 <Tabs.Pane label="用户自助数据集" name="2">用户自助数据集</Tabs.Pane>
                             </Tabs>
                         </div>
                     </Layout.Col>
-                    <Layout.Col xs="21" sm="21" md="21" lg="21">
-                        <div  style={{background:'black',height:'85vh'}}>
-
+                    <Layout.Col xs="20" sm="20" md="20" lg="20">
+                        <div style={{height: '75vh'}}>
                         </div>
                     </Layout.Col>
                 </Layout.Row>
