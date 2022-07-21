@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'com.telecwin.bee'
+group 'com.telecwin.bee.engine'
 version '1.0-SNAPSHOT'
 
 repositories {
