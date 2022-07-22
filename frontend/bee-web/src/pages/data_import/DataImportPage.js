@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import {Dropdown, Tabs, Layout} from 'element-react';
-import BusinessList from "./BusinessList";
+import {Outlet} from "react-router-dom";
 
 function DataImportPage() {
     return (
@@ -18,14 +18,13 @@ function DataImportPage() {
           </span>
                 </Dropdown>
             </section>
-            <section className="content" >
-
+            <section className="content">
                 <Layout.Row>
                     <Layout.Col xs="4" sm="4" md="4" lg="4" >
                         <div>
                             <Tabs activeName="2" onTabClick={(tab) => console.log(tab.props.name)}>
                                 <Tabs.Pane label="数据列表" name="1">
-                                        <BusinessList/>
+                                    <Outlet></Outlet>
                                 </Tabs.Pane>
                                 <Tabs.Pane label="用户自助数据集" name="2">用户自助数据集</Tabs.Pane>
                             </Tabs>
